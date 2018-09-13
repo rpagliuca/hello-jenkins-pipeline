@@ -1,36 +1,32 @@
 pipeline {
     agent none
     stages {
-        lock('hello-jenkins-build') {
-            stage('Build') {
-                agent { docker { image 'php' } }
-                steps {
-                    echo 'Building... ?'
-                }
+        stage('Build') {
+            lock('hello-jenkins-build-stage')
+            agent { docker { image 'php' } }
+            steps {
+                echo 'Building... ?'
             }
         }
-        lock('hello-jenkins-test') {
-            stage('Test') {
-                agent { docker { image 'php' } }
-                steps {
-                    echo 'Testing... ?'
-                }
+        stage('Test') {
+            lock('hello-jenkins-test-stage')
+            agent { docker { image 'php' } }
+            steps {
+                echo 'Testing... ?'
             }
         }
-        lock('hello-jenkins-deploy-approval') {
-            stage('DeployApproval') {
-                agent none
-                steps {
-                    input "Deploy to prod?"
-                }
+        stage('DeployApproval') {
+            lock('hello-jenkins-deploy-approval')
+            agent none
+            steps {
+                input "Deploy to prod?"
             }
         }
-        lock('hello-jenkins-deploy') {
-            stage('Deploy') {
-                agent { docker { image 'php' } }
-                steps {
-                    echo 'Deploying....'
-                }
+        stage('Deploy') {
+            lock('deploy')
+            agent { docker { image 'php' } }
+            steps {
+                echo 'Deploying....'
             }
         }
     }
