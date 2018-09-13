@@ -16,14 +16,14 @@ pipeline {
         stage('DeployApproval') {
             agent none
             steps {
-                milestone()
+                milestone(1)
                 input "Deploy to prod?"
             }
         }
         stage('Deploy') {
             agent { docker { image 'php' } }
             steps {
-                milestone()
+                milestone(2)
                 echo 'Deploying....'
             }
         }
