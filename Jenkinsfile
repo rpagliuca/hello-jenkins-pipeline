@@ -10,7 +10,7 @@ pipeline {
         stage('Test') {
             agent { docker { image 'php' } }
             steps {
-                echo 'Testing..'
+                echo 'Testing... ?'
             }
         }
         stage('DeployApproval') {
